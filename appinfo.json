@@ -1,0 +1,18 @@
+{
+  "uuid": "04a452ae-3f36-4403-9ea2-0aee9ffbdedd",
+  "shortName": "Count Down",
+  "longName": "Count Down",
+  "companyName": "Samuel Rinnetmaki",
+  "capabilities": [ "configurable" ],
+  "versionCode": 1,
+  "versionLabel": "1.0.0",
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": []
+  }
+}
