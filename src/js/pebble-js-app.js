@@ -63,9 +63,9 @@ Pebble.addEventListener("webviewclosed",
     var minutes = parseInt(time[time.length-2]);
     var seconds = parseInt(time[time.length-1]);
     var timeopts = {'0': 'time',
-                   '1': hours,
-                   '2': minutes,
-                   '3': seconds};
+                    '1': hours,
+                    '2': minutes,
+                    '3': seconds};
     console.log("options formed: " + hours + ':' + minutes + ':' + seconds);
     messageQueue.push(timeopts);
     messageQueue.push({'0': 'single', '1': options["1"]});
@@ -77,8 +77,8 @@ Pebble.addEventListener("webviewclosed",
 
 Pebble.addEventListener("showConfiguration",
   function() {
-    var uri = "http://seuranta.org/configure.html";
-    console.log("Configuration url to be opened: " + uri);
+    var uri = "https://rawgithub.com/samuelmr/pebble-countdown/master/configure.html";
+    console.log("Configuration url: " + uri);
     Pebble.openURL(uri);
   }
 );
