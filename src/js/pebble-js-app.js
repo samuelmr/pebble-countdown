@@ -4,7 +4,7 @@ var messageQueue = [];
 function sendNextMessage() {
   if (messageQueue.length > 0) {
     Pebble.sendAppMessage(messageQueue[0], appMessageAck, appMessageNack);
-    console.log("Sent message to Pebble!" );
+    console.log("Sent message to Pebble! " + JSON.stringify(messageQueue[0]));
   }
 }
 
@@ -53,8 +53,8 @@ Pebble.addEventListener("ready",
 
 Pebble.addEventListener("webviewclosed",
   function(e) {
-    // console.log("Webview window returned: " + e.response);
     var options = JSON.parse(decodeURIComponent(e.response));
+    console.log("Webview window returned: " + JSON.stringify(options));
     var time = options["0"].split(":");
     var hours = 0;
     if (time.length == 3) {
@@ -68,9 +68,9 @@ Pebble.addEventListener("webviewclosed",
                     '3': seconds};
     console.log("options formed: " + hours + ':' + minutes + ':' + seconds);
     messageQueue.push(timeopts);
-    messageQueue.push({'0': 'single', '1': options["1"]});
-    messageQueue.push({'0': 'double', '1': options["2"]});
-    messageQueue.push({'0': 'long', '1': options["3"]});
+    messageQueue.push({'0': 'long', '1': options["1"]});
+    messageQueue.push({'0': 'single', '1': options["2"]});
+    messageQueue.push({'0': 'double', '1': options["3"]});
     sendNextMessage();
   }
 );

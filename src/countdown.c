@@ -18,24 +18,31 @@ int default_seconds;
 char *default_single_vibes;
 char *default_double_vibes;
 char *default_long_vibes;
+char *time_key;
+char *single_key;
+char *double_key;
+char *long_key;
 int running;
 
 static void show_time(void) {
   static char body_text[9];
+  static char time_test[9];
   if (hours > 0) {
     snprintf(body_text, sizeof(body_text), "%d\n%02d\n%02d", hours, minutes, seconds);
+    snprintf(time_test, sizeof(body_text), "%d:%02d:%02d", hours, minutes, seconds);
   }
   else {
     snprintf(body_text, sizeof(body_text), "\n%d\n%02d", minutes, seconds);
+    snprintf(time_test, sizeof(body_text), "%d:%02d", minutes, seconds);
   }
   text_layer_set_text(text_layer, body_text);
-  if (strstr(single_vibes, body_text)) {
+  if (strstr(single_vibes, time_test)) {
     vibes_short_pulse();
   }
-  if (strstr(long_vibes, body_text)) {
+  if (strstr(long_vibes, time_test)) {
     vibes_long_pulse();
   }
-  if (strstr(double_vibes, body_text)) {
+  if (strstr(double_vibes, time_test)) {
     vibes_double_pulse();
   }
 }
@@ -81,7 +88,6 @@ void in_received_handler(DictionaryIterator *received, void *context) {
 
   Tuple *msg_type = dict_read_first(received);
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Got message from phone: %s", msg_type->value->cstring);
-  char time_key[80] = "time";
   if (strcmp(msg_type->value->cstring, time_key) == 0) {
     Tuple *hrs = dict_read_next(received);
     default_hours = hrs->value->int8;
@@ -96,18 +102,21 @@ void in_received_handler(DictionaryIterator *received, void *context) {
 	reset();
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "New config: %d:%02d:%02d", hours, minutes, seconds);
   }
-/*
   else {
     Tuple *val = dict_read_next(received);
-    char single_key[80] = "single";
-    char double_key[80] = "double";
-    char long_key[80] = "long";
+    if (strcmp(msg_type->value->cstring, long_key) == 0) {
+      long_vibes = val->value->cstring;
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set long vibes to: %s", long_vibes);
+    }
     if (strcmp(msg_type->value->cstring, single_key) == 0) {
       single_vibes = val->value->cstring;
       APP_LOG(APP_LOG_LEVEL_DEBUG, "Set single vibes to: %s", single_vibes);
     }
+    if (strcmp(msg_type->value->cstring, double_key) == 0) {
+      double_vibes = val->value->cstring;
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set double vibes to: %s", double_vibes);
+    }
   }
-*/
 }
 
 void in_dropped_handler(AppMessageResult reason, void *context) {
@@ -192,6 +201,10 @@ static void init(void) {
   default_long_vibes = "|4:00|3:00|2:00|1:00|0:00";
   default_single_vibes = "|4:30|3:30|2:30|1:30";
   default_double_vibes = "|0:50|0:40|0:30|0:25|0:20|0:15|0:10|0:09|0:08|0:07|0:06|0:05|0:04|0:03|0:02|0:01";
+  time_key = "time";
+  single_key = "single";
+  double_key = "double";
+  long_key = "long";
 
   APP_LOG(APP_LOG_LEVEL_DEBUG, "OK: %d", APP_MSG_OK);
   APP_LOG(APP_LOG_LEVEL_DEBUG, "SEND_TIMEOUT: %d", APP_MSG_SEND_TIMEOUT);
