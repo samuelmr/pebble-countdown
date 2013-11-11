@@ -101,39 +101,39 @@
 <form id="isaf" method="get" action="#" onsubmit="sendConfig(this); return false;">
 <fieldset>
 <legend>Sailing (ISAF start)</legend>
-<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="time" value="5:00" /></p>
-<p id="long"><label>Long vibes (hh:mm:ss):</label>
-<span><input value="4:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="3:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="2:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="1:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="0:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
+<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="time" value="5:00" /></p>
+<p class="long"><label>Long vibes (hh:mm:ss):</label>
+<span><input value="4:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="3:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="2:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="1:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="0:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="single"><label>Single vibes (hh:mm:ss):</label>
-<span><input value="4:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
-<span><input value="3:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
-<span><input value="2:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
-<span><input value="1:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
+<p class="single"><label>Single vibes (hh:mm:ss):</label>
+<span><input value="4:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="3:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="2:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="1:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="double"><label>Double vibes (hh:mm:ss):</label>
-<span><input value="0:50" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:40" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:25" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:20" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:15" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:10" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:09" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:08" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:07" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:06" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:05" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:04" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:03" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:02" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:01" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
+<p class="double"><label>Double vibes (hh:mm:ss):</label>
+<span><input value="0:50" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:40" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:25" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:20" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:15" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:10" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:09" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:08" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:07" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:06" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:05" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:04" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:03" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:02" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:01" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
 <input type="submit" value="Use these settings" />
@@ -142,36 +142,36 @@
 <form id="ted20" method="get" action="#" onsubmit="sendConfig(this); return false;">
 <fieldset>
 <legend>20 min talk</legend>
-<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="time" value="20:00" /></p>
-<p id="long"><label>Long vibes (hh:mm:ss):</label>
-<span><input value="17:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="14:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="11:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="8:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="5:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="4:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="3:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="2:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="1:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="0:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
+<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="time" value="20:00" /></p>
+<p class="long"><label>Long vibes (hh:mm:ss):</label>
+<span><input value="17:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="14:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="11:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="8:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="5:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="4:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="3:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="2:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="1:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
+<span><input value="0:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="single"><label>Single vibes (hh:mm:ss):</label>
-<span><input value="4:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
-<span><input value="3:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
-<span><input value="2:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
-<span><input value="1:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span>
+<p class="single"><label>Single vibes (hh:mm:ss):</label>
+<span><input value="4:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="3:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="2:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="1:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="double"><label>Double vibes (hh:mm:ss):</label>
-<span><input value="0:50" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:40" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:25" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:20" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:15" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:10" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
-<span><input value="0:05" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span>
+<p class="double"><label>Double vibes (hh:mm:ss):</label>
+<span><input value="0:50" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:40" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:30" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:25" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:20" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:15" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:10" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="0:05" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
 <input type="submit" value="Use these settings" />
@@ -180,22 +180,22 @@
 <form id="workout" method="get" action="#" onsubmit="sendConfig(this); return false;">
 <fieldset>
 <legend>2 hour workout</legend>
-<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="time" value="2:00:00" /></p>
-<p id="long"><label>Long vibes (hh:mm:ss):</label>
-<span><input value="0:00:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
+<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="time" value="2:00:00" /></p>
+<p class="long"><label>Long vibes (hh:mm:ss):</label>
+<span><input value="0:00:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="single"><label>Single vibes (hh:mm:ss):</label>
-<span><input value="1:30:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="1:00:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="30:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
+<p class="single"><label>Single vibes (hh:mm:ss):</label>
+<span><input value="1:30:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="1:00:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
+<span><input value="30:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="double"><label>Double vibes (hh:mm:ss):</label>
-<span><input value="1:45:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="1:15:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="45:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
-<span><input value="15:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" /></span>
+<p class="double"><label>Double vibes (hh:mm:ss):</label>
+<span><input value="1:45:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="1:15:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="45:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
+<span><input value="15:00" pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span>
 <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
 <input type="submit" value="Use these settings" />
@@ -204,37 +204,38 @@
 <form id="simple" method="get" action="#" onsubmit="sendConfig(this); return false;">
 <fieldset>
 <legend>Simple</legend>
-<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="time" value="5:00" /></p>
-<p id="long"><label>Long vibes (hh:mm:ss):</label>
-<span><input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="longvibes" value="0:00" /></span> <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
+<p><label>Count down from (hh:mm:ss):</label> <input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="time" value="5:00" /></p>
+<p class="long"><label>Long vibes (hh:mm:ss):</label>
+<span><input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="longvibes" value="0:00" /></span> <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="single"><label>Single vibes (hh:mm:ss):</label>
-<span><input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="singlevibes" /></span> <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
+<p class="single"><label>Single vibes (hh:mm:ss):</label>
+<span><input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="singlevibes" /></span> <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
-<p id="double"><label>Double vibes (hh:mm:ss):</label>
-<span><input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" id="doublevibes" /></span> <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
+<p class="double"><label>Double vibes (hh:mm:ss):</label>
+<span><input pattern="[0-9]{0,2}:{0,1}[0-9]{1,2}:[0-9]{2}" name="doublevibes" /></span> <button onclick="clone(this); return false;">+</button> <button onclick="destroy(this); return false;">&minus;</button>
 </p>
 <input type="submit" value="Use these settings" />
 </fieldset>
 </form>
 <script>
 function sendConfig(f) {
- var conf = {'0': f['time'].value,
-             '1': getValues('single'),
-             '2': getValues('double'),
-             '3': getValues('long')};
- // alert(JSON.stringify(conf));
+ var inputs = f.getElementsByTagName('input');
+ var time,long,single,double;
+ var conf = {'0': f['time'].value, '1': '', '2': '', '3': ''};
+ for (var i=0; i<inputs.length; i++) {
+  if (inputs[i].name == 'longvibes') {
+    conf['1'] += '|' + inputs[i].value;
+  }
+  if (inputs[i].name == 'singlevibes') {
+    conf['2'] += '|' + inputs[i].value;
+  }
+  if (inputs[i].name == 'doublevibes') {
+    conf['3'] += '|' + inputs[i].value;
+  }
+ }
+ alert(JSON.stringify(conf));
  location.href = 'pebblejs://close#' + JSON.stringify(conf);
  return false;
-}
-function getValues(id) {
- var p = document.getElementById(id);
- var v = '';
- var inputs = p.getElementsByTagName('input');
- for (var i=0; i<inputs.length; i++) {
-  v += '|' + inputs[i].value;
- }
- return v;
 }
 function clone(button) {
  // alert(button);
