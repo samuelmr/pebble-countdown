@@ -58,7 +58,7 @@ Pebble.addEventListener("webviewclosed",
     var time = options["0"].split(":");
     var hours = 0;
     if (time.length == 3) {
-     hours = time[0];
+     hours = parseInt(time[0]);
     }
     var minutes = parseInt(time[time.length-2]);
     var seconds = parseInt(time[time.length-1]);

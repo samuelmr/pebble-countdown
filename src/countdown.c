@@ -1,11 +1,14 @@
 #include <pebble.h>
-/*
-#define ONE_SECOND 1000
-*/
 static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 static const uint16_t timer_interval_ms = 1000;
+static const uint32_t HOURS_KEY = 1;
+static const uint32_t MINUTES_KEY = 2;
+static const uint32_t SECONDS_KEY = 4;
+static const uint32_t LONG_VIBES_KEY = 8;
+static const uint32_t SINGLE_VIBES_KEY = 16;
+static const uint32_t DOUBLE_VIBES_KEY = 32;
 int hours;
 int minutes;
 int seconds;
@@ -15,13 +18,13 @@ char *long_vibes;
 int default_hours;
 int default_minutes;
 int default_seconds;
+char *default_long_vibes;
 char *default_single_vibes;
 char *default_double_vibes;
-char *default_long_vibes;
 char *time_key;
+char *long_key;
 char *single_key;
 char *double_key;
-char *long_key;
 int running;
 
 static void show_time(void) {
@@ -36,11 +39,11 @@ static void show_time(void) {
     snprintf(time_test, sizeof(body_text), "%d:%02d", minutes, seconds);
   }
   text_layer_set_text(text_layer, body_text);
-  if (strstr(single_vibes, time_test)) {
-    vibes_short_pulse();
-  }
   if (strstr(long_vibes, time_test)) {
     vibes_long_pulse();
+  }
+  if (strstr(single_vibes, time_test)) {
+    vibes_short_pulse();
   }
   if (strstr(double_vibes, time_test)) {
     vibes_double_pulse();
@@ -91,10 +94,6 @@ void in_received_handler(DictionaryIterator *received, void *context) {
   if (strcmp(msg_type->value->cstring, time_key) == 0) {
     Tuple *hrs = dict_read_next(received);
     default_hours = hrs->value->int8;
-    /* WTF: 2 becomes 50! */
-    if (default_hours >= 50) {
-     default_hours = default_hours - 48;
-    }
     Tuple *mins = dict_read_next(received);
     default_minutes = mins->value->int8;
     Tuple *secs = dict_read_next(received);
@@ -105,16 +104,16 @@ void in_received_handler(DictionaryIterator *received, void *context) {
   else {
     Tuple *val = dict_read_next(received);
     if (strcmp(msg_type->value->cstring, long_key) == 0) {
-      long_vibes = val->value->cstring;
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set long vibes to: %s", long_vibes);
+      strcpy(default_long_vibes, val->value->cstring);
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set long vibes to: %s", default_long_vibes);
     }
-    if (strcmp(msg_type->value->cstring, single_key) == 0) {
-      single_vibes = val->value->cstring;
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set single vibes to: %s", single_vibes);
+    else if (strcmp(msg_type->value->cstring, single_key) == 0) {
+      strcpy(default_single_vibes, val->value->cstring);
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set single vibes to: %s", default_single_vibes);
     }
-    if (strcmp(msg_type->value->cstring, double_key) == 0) {
-      double_vibes = val->value->cstring;
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set double vibes to: %s", double_vibes);
+    else if (strcmp(msg_type->value->cstring, double_key) == 0) {
+      strcpy(default_double_vibes, val->value->cstring);
+      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set double vibes to: %s", default_double_vibes);
     }
   }
 }
@@ -177,7 +176,7 @@ static void click_config_provider(void *context) {
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_frame(window_layer);
-  text_layer = text_layer_create(bounds);
+  text_layer = text_layer_create(GRect(0, 0, bounds.size.w, bounds.size.h));
   text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
   text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
   layer_add_child(window_layer, text_layer_get_layer(text_layer));
@@ -195,29 +194,35 @@ static void init(void) {
   const uint32_t outbound_size = 128;
   app_message_open(inbound_size, outbound_size);
 
-  default_hours = 0;
-  default_minutes = 5;
-  default_seconds = 0;
+  default_hours = persist_exists(HOURS_KEY) ? persist_read_int(HOURS_KEY) : 0;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised hours to: %d", default_hours);
+  default_minutes = persist_exists(MINUTES_KEY) ? persist_read_int(MINUTES_KEY) : 5;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised minutes to: %d", default_minutes);
+  default_seconds = persist_exists(SECONDS_KEY) ? persist_read_int(SECONDS_KEY) : 0;
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised seconds to: %d", default_seconds);
   default_long_vibes = "|4:00|3:00|2:00|1:00|0:00";
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised long vibes to: %s", default_long_vibes);
+  if (persist_exists(LONG_VIBES_KEY)) {
+    persist_read_string(LONG_VIBES_KEY, default_long_vibes, 256);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised persisted long vibes to: %s", default_long_vibes);
+  }
   default_single_vibes = "|4:30|3:30|2:30|1:30";
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised single vibes to: %s", default_single_vibes);
+  if (persist_exists(SINGLE_VIBES_KEY)) {
+    persist_read_string(SINGLE_VIBES_KEY, default_single_vibes, 256);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised persisted single vibes to: %s", default_single_vibes);
+  }
   default_double_vibes = "|0:50|0:40|0:30|0:25|0:20|0:15|0:10|0:09|0:08|0:07|0:06|0:05|0:04|0:03|0:02|0:01";
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised double vibes to: %s", default_double_vibes);
+  if (persist_exists(DOUBLE_VIBES_KEY)) {
+    persist_read_string(DOUBLE_VIBES_KEY, default_double_vibes, 256);
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised persisted double vibes to: %s", default_double_vibes);
+  }
   time_key = "time";
+  long_key = "long";
   single_key = "single";
   double_key = "double";
-  long_key = "long";
 
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "OK: %d", APP_MSG_OK);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "SEND_TIMEOUT: %d", APP_MSG_SEND_TIMEOUT);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "SEND_REJECTED: %d", APP_MSG_SEND_REJECTED);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "NOT_CONNECTED: %d", APP_MSG_NOT_CONNECTED);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "APP_NOT_RUNNING: %d", APP_MSG_APP_NOT_RUNNING);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "INVALID_ARGS: %d", APP_MSG_INVALID_ARGS);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "BUSY: %d", APP_MSG_BUSY);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "BUFFER_OVERFLOW: %d", APP_MSG_BUFFER_OVERFLOW);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "ALREADY_RELEASED: %d", APP_MSG_ALREADY_RELEASED);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "CALLBACK_ALREADY_REGISTERED: %d", APP_MSG_CALLBACK_ALREADY_REGISTERED);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "CALLBACK_NOT_REGISTERED: %d", APP_MSG_CALLBACK_NOT_REGISTERED);
-  
   window = window_create();
   window_set_click_config_provider(window, click_config_provider);
   window_set_window_handlers(window, (WindowHandlers) {
@@ -229,6 +234,12 @@ static void init(void) {
 }
 
 static void deinit(void) {
+  persist_write_int(HOURS_KEY, default_hours);
+  persist_write_int(MINUTES_KEY, default_minutes);
+  persist_write_int(SECONDS_KEY, default_seconds);
+  persist_write_string(LONG_VIBES_KEY, default_long_vibes);
+  persist_write_string(SINGLE_VIBES_KEY, default_single_vibes);
+  persist_write_string(DOUBLE_VIBES_KEY, default_double_vibes);
   window_destroy(window);
 }
 
