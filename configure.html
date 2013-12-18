@@ -233,7 +233,7 @@ function sendConfig(f) {
     conf['3'] += '|' + inputs[i].value;
   }
  }
- alert(JSON.stringify(conf));
+ // alert(JSON.stringify(conf));
  location.href = 'pebblejs://close#' + JSON.stringify(conf);
  return false;
 }
