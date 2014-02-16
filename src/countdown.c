@@ -94,10 +94,13 @@ void in_received_handler(DictionaryIterator *received, void *context) {
   if (strcmp(msg_type->value->cstring, time_key) == 0) {
     Tuple *hrs = dict_read_next(received);
     default_hours = hrs->value->int8;
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Default hours: %02d", default_hours);
     Tuple *mins = dict_read_next(received);
     default_minutes = mins->value->int8;
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Default minutes: %02d", default_minutes);
     Tuple *secs = dict_read_next(received);
     default_seconds = secs->value->int8;
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "Default seconds: %02d", default_seconds);
 	reset();
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "New config: %d:%02d:%02d", hours, minutes, seconds);
   }
