@@ -5,7 +5,7 @@
   "companyName": "Samuel Rinnetmaki",
   "capabilities": [ "configurable" ],
   "versionCode": 1,
-  "versionLabel": "1.0.2",
+  "versionLabel": "1.0.4",
   "watchapp": {
     "watchface": false
   },
