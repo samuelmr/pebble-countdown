@@ -130,6 +130,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
      reset();
    }
    running = 0;
+   vibes_double_pulse();
    return;
   }
   else {
