@@ -14,19 +14,21 @@
   margin: 0;
  }
  header {
+  background: linear-gradient(#ADF, #FFF); /* FF 3.6+ */  
+  background: -moz-linear-gradient(#ADF, #FFF); /* FF 3.6+ */  
+  background: -o-linear-gradient(#ADF, #FFF); /* FF 3.6+ */  
+  background: -webkit-linear-gradient(#ADF, #FFF); /* FF 3.6+ */  
   height: 13em;
   overflow: auto;
  }
  h1 {
-  background: linear-gradient(#999, #FFF); /* FF 3.6+ */  
-  background: -moz-linear-gradient(#999, #FFF); /* FF 3.6+ */  
-  background: -o-linear-gradient(#999, #FFF); /* FF 3.6+ */  
-  background: -webkit-linear-gradient(#999, #FFF); /* FF 3.6+ */  
+  color: #FFF;
   font-size: 1.25em;
   line-height: 1;
   margin: 0 auto;
   padding: 0.5em;
   text-align: center;
+  text-shadow: 2px 2px 1px #6DF;
  }
  header p {
   margin: 0 auto;
@@ -43,13 +45,17 @@
   white-space: nowrap;
  }
  menu li a {
-  border: 2px outset #CCC;
-  color: #666;
-  padding: 0.25em;
+  background-color: #9DF;
+  border: 2px outset #6AC;
+  border-radius: 4px;
+  color: #000;
+  padding: 3px;
   text-decoration: none;
  }
- menu li a:active, #simple-link {
-  border-style: inset;
+ menu li a:active, menu li a.selected {
+  background-color: #F93;
+  border: 2px inset #930;
+  color: #FFF;
  }
  form {
   bottom: 0;
@@ -63,9 +69,19 @@
   display: none;
  }
  fieldset {
+  background-color: #9DF;
+  border-radius: 4px;
+  border-width: 0;
   font-size: larger;
   margin: 0 auto;
   width: 90%;
+ }
+ legend {
+  background-color: #F93;
+  border-radius: 4px;
+  box-shadow: 0 2px 2px #999;
+  color: #FFF;
+  padding: 1px 4px;
  }
  input {
   text-align: right;
@@ -78,6 +94,7 @@
   width: 6ex;
  }
  input[type=submit] {
+  border-radius: 4px;
   font-weight: bold;
   margin: 1em 0 0 0;
   text-align: left;
@@ -86,7 +103,7 @@
  label {
   display: block;
   font-size: smaller;
-  font-weight: 600;
+  font-weight: bold;
  }
  p {
   margin: 0;
@@ -99,7 +116,7 @@
 <p>How long the count down should take and when the Pebble should wibrate during the countdown?</p>
 <p>Choose from pre-defined templates or build your own pattern from scratch.</p>
 <menu>
-<li><a href="#simple" id="simple-link" onclick="showForm('simple');">Basic</a></li>
+<li><a href="#simple" id="simple-link" onclick="showForm('simple');" class="selected">Basic</a></li>
 <li><a href="#ted20" id="ted20-link" onclick="showForm('ted20');">20 min talk</a></li>
 <li><a href="#workout" id="workout-link" onclick="showForm('workout');">2 h workout</a></li>
 <li><a href="#isaf" id="isaf-link" onclick="showForm('isaf');">Sailing</a></li>
@@ -274,11 +291,11 @@ function showForm(id) {
   var l = document.getElementById(fs[i].id + '-link');
   if (fs[i]['id'] != id) {
    fs[i].style.display = 'none';
-   l.style.borderStyle = 'outset';
+   l.className = '';
   }
   else {   
    fs[i].style.display = 'block';
-   l.style.borderStyle = 'inset';
+   l.className = 'selected';
   }
  }
 }
