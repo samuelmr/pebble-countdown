@@ -77,7 +77,7 @@ Pebble.addEventListener("webviewclosed",
 
 Pebble.addEventListener("showConfiguration",
   function() {
-    var uri = "https://rawgithub.com/samuelmr/pebble-countdown/master/configure.html";
+    var uri = "https://samuelmr.github.io/pebble-countdown/configure.html";
     console.log("Configuration url: " + uri);
     Pebble.openURL(uri);
   }
