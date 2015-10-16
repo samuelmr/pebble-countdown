@@ -1,5 +1,4 @@
-pebble-countdown
-================
+#Count Down
 
 A countdown app for Pebble smartwatch
 
