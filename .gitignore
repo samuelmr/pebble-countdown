@@ -3,3 +3,5 @@ src/.DS_Store
 .lock-waf_darwin_build
 appstore-resources
 build
+
+node_modules/
