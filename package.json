@@ -1,37 +1,48 @@
 {
-  "version": "1.3.0",
-  "author": "Samuel Rinnetmaki",
-  "private": true,
-  "dependencies": {},
-  "keywords": [
-    "pebble-app"
-  ],
-  "pebble": {
-    "sdkVersion": "3",
-    "resources": {
-      "media": []
-    },
-    "projectType": "native",
-    "uuid": "04a452ae-3f36-4403-9ea2-0aee9ffbdedd",
-    "messageKeys": {
-      "dummy": 0
-    },
-    "enableMultiJS": false,
-    "displayName": "Count Down",
-    "watchapp": {
-      "onlyShownOnCommunication": false,
-      "hiddenApp": false,
-      "watchface": false
-    },
-    "targetPlatforms": [
-      "aplite",
-      "basalt",
-      "chalk",
-      "diorite"
+    "author": "Samuel Rinnetm\u00e4ki",
+    "dependencies": {},
+    "keywords": [
+        "pebble-app"
     ],
-    "capabilities": [
-      "configurable"
-    ]
-  },
-  "name": "Count Down"
+    "name": "count-down",
+    "pebble": {
+        "capabilities": [
+            "configurable"
+        ],
+        "displayName": "Count Down",
+        "enableMultiJS": true,
+        "messageKeys": [
+            "hours",
+            "minutes",
+            "seconds",
+            "long",
+            "single",
+            "double"
+        ],
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/hourglass.png",
+                    "menuIcon": true,
+                    "name": "HOURGLASS",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt",
+            "chalk",
+            "diorite",
+            "emery"
+        ],
+        "uuid": "04a452ae-3f36-4403-9ea2-0aee9ffbdedd",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.4.0"
 }

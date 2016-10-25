@@ -3,29 +3,19 @@ static Window *window;
 static TextLayer *text_layer;
 static AppTimer *timer;
 static const uint16_t timer_interval_ms = 1000;
-static const uint32_t HOURS_KEY = 1 << 1;
-static const uint32_t MINUTES_KEY = 1 << 2;
-static const uint32_t SECONDS_KEY = 1 << 3;
-static const uint32_t LONG_VIBES_KEY = 1 << 4;
-static const uint32_t SINGLE_VIBES_KEY = 1 << 5;
-static const uint32_t DOUBLE_VIBES_KEY = 1 << 6;
-int hours;
-int minutes;
-int seconds;
-char *single_vibes;
-char *double_vibes;
-char *long_vibes;
-int default_hours;
-int default_minutes;
-int default_seconds;
-char *default_long_vibes;
-char *default_single_vibes;
-char *default_double_vibes;
-char *time_key;
-char *long_key;
-char *single_key;
-char *double_key;
-int running;
+static int hours;
+static int minutes;
+static int seconds;
+static char *single_vibes;
+static char *double_vibes;
+static char *long_vibes;
+static int default_hours;
+static int default_minutes;
+static int default_seconds;
+static char *default_long_vibes;
+static char *default_single_vibes;
+static char *default_double_vibes;
+static int running;
 
 static void show_time(void) {
   static char body_text[9];
@@ -50,10 +40,9 @@ static void show_time(void) {
   }
 }
 
-static void timer_callback(void *data) {
+static void timer_callback(void *data);
 
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Timer: %d:%02d:%02d", hours, minutes, seconds);
-
+static void advance_time() {
   seconds--;
   if (seconds < 0) {
     minutes--;
@@ -64,7 +53,10 @@ static void timer_callback(void *data) {
     minutes = 59;
   }
   if (hours < 0) {
-    app_timer_cancel(timer);
+    if (timer) {
+      app_timer_cancel(timer);
+      timer = NULL;    
+    }
     running = 0;
     hours = 0;
     minutes = 0;
@@ -73,7 +65,12 @@ static void timer_callback(void *data) {
   else {
     timer = app_timer_register(timer_interval_ms, timer_callback, NULL);
   }
-  show_time();
+  show_time();  
+}
+
+static void timer_callback(void *data) {
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "Timer: %d:%02d:%02d", hours, minutes, seconds);
+  advance_time();
 }
 
 static void reset(void) {
@@ -88,34 +85,33 @@ static void reset(void) {
 }
 
 void in_received_handler(DictionaryIterator *received, void *context) {
-
-  Tuple *msg_type = dict_read_first(received);
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "Got message from phone: %s", msg_type->value->cstring);
-  if (strcmp(msg_type->value->cstring, time_key) == 0) {
-    Tuple *hrs = dict_find(received, 1);
-    default_hours = hrs->value->int8;
-    Tuple *mins = dict_find(received, 2);
-    default_minutes = mins->value->int8;
-    Tuple *secs = dict_find(received, 3);
-    default_seconds = secs->value->int8;
-	reset();
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "New config: %d:%02d:%02d", hours, minutes, seconds);
+  Tuple *hour_tuple = dict_find(received, MESSAGE_KEY_hours);
+  if(hour_tuple) {
+    default_hours = hour_tuple->value->int8;
   }
-  else {
-    Tuple *val = dict_read_next(received);
-    if (strcmp(msg_type->value->cstring, long_key) == 0) {
-      strcpy(default_long_vibes, val->value->cstring);
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set long vibes to: %s", default_long_vibes);
-    }
-    else if (strcmp(msg_type->value->cstring, single_key) == 0) {
-      strcpy(default_single_vibes, val->value->cstring);
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set single vibes to: %s", default_single_vibes);
-    }
-    else if (strcmp(msg_type->value->cstring, double_key) == 0) {
-      strcpy(default_double_vibes, val->value->cstring);
-      APP_LOG(APP_LOG_LEVEL_DEBUG, "Set double vibes to: %s", default_double_vibes);
-    }
+  Tuple *minute_tuple = dict_find(received, MESSAGE_KEY_minutes);
+  if(minute_tuple) {
+    default_minutes = minute_tuple->value->int8;
   }
+  Tuple *second_tuple = dict_find(received, MESSAGE_KEY_seconds);
+  if(second_tuple) {
+    default_seconds = second_tuple->value->int8;
+  }
+  Tuple *long_tuple = dict_find(received, MESSAGE_KEY_long);
+  if(long_tuple) {
+    strcpy(default_long_vibes, long_tuple->value->cstring);
+  }
+  Tuple *single_tuple = dict_find(received, MESSAGE_KEY_single);
+  if(single_tuple) {
+    strcpy(default_single_vibes, single_tuple->value->cstring);
+  }
+  Tuple *double_tuple = dict_find(received, MESSAGE_KEY_double);
+  if(double_tuple) {
+    strcpy(default_double_vibes, double_tuple->value->cstring);
+  }
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "New config: %d:%02d:%02d; %s; %s; %s", hours, minutes, seconds, 
+    default_long_vibes, default_single_vibes, default_double_vibes);
+  reset();
 }
 
 void in_dropped_handler(AppMessageResult reason, void *context) {
@@ -124,28 +120,32 @@ void in_dropped_handler(AppMessageResult reason, void *context) {
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   if ((running) || ((hours == 0) && (minutes == 0) && (seconds == 0))) {
-   APP_LOG(APP_LOG_LEVEL_DEBUG, "Stop: %d:%02d:%02d", hours, minutes, seconds);
-   app_timer_cancel(timer);
-   if (!running) {
-     reset();
-   }
-   running = 0;
-   vibes_double_pulse();
-   return;
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Stop: %d:%02d:%02d", hours, minutes, seconds);
+    if (timer) {
+      app_timer_cancel(timer);
+      timer = NULL;
+    }
+    if (!running) {
+      reset();
+    }
+    running = 0;
+    vibes_double_pulse();
+    return;
   }
   else {
-   APP_LOG(APP_LOG_LEVEL_DEBUG, "Start: %d:%02d:%02d", hours, minutes, seconds);
-   running = 1;
+    APP_LOG(APP_LOG_LEVEL_DEBUG, "Start: %d:%02d:%02d", hours, minutes, seconds);
+    running = 1;
   }
-  timer = app_timer_register(timer_interval_ms, timer_callback, NULL);
-  show_time();
   vibes_short_pulse();
-  seconds--;
+  advance_time();
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Sync up: %d:%02d:%02d", hours, minutes, seconds);
-  app_timer_cancel(timer);
+  if (timer) {
+    app_timer_cancel(timer);
+    timer = NULL;
+  }
   timer = app_timer_register(timer_interval_ms, timer_callback, NULL);
   running = 1;
   minutes++;
@@ -160,7 +160,10 @@ static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Sync down: %d:%02d:%02d", hours, minutes, seconds);
-  app_timer_cancel(timer);
+  if (timer) {
+    app_timer_cancel(timer);
+    timer = NULL;
+  }
   timer = app_timer_register(timer_interval_ms, timer_callback, NULL);
   running = 1;
   seconds = 0;
@@ -197,34 +200,30 @@ static void init(void) {
   const uint32_t outbound_size = 128;
   app_message_open(inbound_size, outbound_size);
 
-  default_hours = persist_exists(HOURS_KEY) ? persist_read_int(HOURS_KEY) : 0;
+  default_hours = persist_exists(MESSAGE_KEY_hours) ? persist_read_int(MESSAGE_KEY_hours) : 0;
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised hours to: %d", default_hours);
-  default_minutes = persist_exists(MINUTES_KEY) ? persist_read_int(MINUTES_KEY) : 5;
+  default_minutes = persist_exists(MESSAGE_KEY_minutes) ? persist_read_int(MESSAGE_KEY_minutes) : 5;
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised minutes to: %d", default_minutes);
-  default_seconds = persist_exists(SECONDS_KEY) ? persist_read_int(SECONDS_KEY) : 0;
+  default_seconds = persist_exists(MESSAGE_KEY_seconds) ? persist_read_int(MESSAGE_KEY_seconds) : 0;
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised seconds to: %d", default_seconds);
   default_long_vibes = "|4:00|3:00|2:00|1:00|0:00";
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised long vibes to: %s", default_long_vibes);
-  if (persist_exists(LONG_VIBES_KEY)) {
-    persist_read_string(LONG_VIBES_KEY, default_long_vibes, 256);
+  if (persist_exists(MESSAGE_KEY_long)) {
+    persist_read_string(MESSAGE_KEY_long, default_long_vibes, 256);
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised persisted long vibes to: %s", default_long_vibes);
   }
   default_single_vibes = "|4:30|3:30|2:30|1:30";
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised single vibes to: %s", default_single_vibes);
-  if (persist_exists(SINGLE_VIBES_KEY)) {
-    persist_read_string(SINGLE_VIBES_KEY, default_single_vibes, 256);
+  if (persist_exists(MESSAGE_KEY_single)) {
+    persist_read_string(MESSAGE_KEY_single, default_single_vibes, 256);
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised persisted single vibes to: %s", default_single_vibes);
   }
   default_double_vibes = "|0:50|0:40|0:30|0:25|0:20|0:15|0:10|0:09|0:08|0:07|0:06|0:05|0:04|0:03|0:02|0:01";
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised double vibes to: %s", default_double_vibes);
-  if (persist_exists(DOUBLE_VIBES_KEY)) {
-    persist_read_string(DOUBLE_VIBES_KEY, default_double_vibes, 256);
+  if (persist_exists(MESSAGE_KEY_double)) {
+    persist_read_string(MESSAGE_KEY_double, default_double_vibes, 256);
     APP_LOG(APP_LOG_LEVEL_DEBUG, "Initialised persisted double vibes to: %s", default_double_vibes);
   }
-  time_key = "time";
-  long_key = "long";
-  single_key = "single";
-  double_key = "double";
 
   window = window_create();
   window_set_click_config_provider(window, click_config_provider);
@@ -237,12 +236,12 @@ static void init(void) {
 }
 
 static void deinit(void) {
-  persist_write_int(HOURS_KEY, default_hours);
-  persist_write_int(MINUTES_KEY, default_minutes);
-  persist_write_int(SECONDS_KEY, default_seconds);
-  persist_write_string(LONG_VIBES_KEY, default_long_vibes);
-  persist_write_string(SINGLE_VIBES_KEY, default_single_vibes);
-  persist_write_string(DOUBLE_VIBES_KEY, default_double_vibes);
+  persist_write_int(MESSAGE_KEY_hours, default_hours);
+  persist_write_int(MESSAGE_KEY_minutes, default_minutes);
+  persist_write_int(MESSAGE_KEY_seconds, default_seconds);
+  persist_write_string(MESSAGE_KEY_long, default_long_vibes);
+  persist_write_string(MESSAGE_KEY_single, default_single_vibes);
+  persist_write_string(MESSAGE_KEY_double, default_double_vibes);
   window_destroy(window);
 }
 
