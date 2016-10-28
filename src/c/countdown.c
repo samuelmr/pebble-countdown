@@ -55,7 +55,7 @@ static void advance_time() {
   if (hours < 0) {
     if (timer) {
       app_timer_cancel(timer);
-      timer = NULL;    
+      timer = NULL;
     }
     running = 0;
     hours = 0;
@@ -65,7 +65,7 @@ static void advance_time() {
   else {
     timer = app_timer_register(timer_interval_ms, timer_callback, NULL);
   }
-  show_time();  
+  show_time();
 }
 
 static void timer_callback(void *data) {
@@ -109,7 +109,7 @@ void in_received_handler(DictionaryIterator *received, void *context) {
   if(double_tuple) {
     strcpy(default_double_vibes, double_tuple->value->cstring);
   }
-  APP_LOG(APP_LOG_LEVEL_DEBUG, "New config: %d:%02d:%02d; %s; %s; %s", hours, minutes, seconds, 
+  APP_LOG(APP_LOG_LEVEL_DEBUG, "New config: %d:%02d:%02d; %s; %s; %s", hours, minutes, seconds,
     default_long_vibes, default_single_vibes, default_double_vibes);
   reset();
 }
@@ -196,8 +196,8 @@ static void window_unload(Window *window) {
 static void init(void) {
   app_message_register_inbox_received(in_received_handler);
   app_message_register_inbox_dropped(in_dropped_handler);
-  const uint32_t inbound_size = 128;
-  const uint32_t outbound_size = 128;
+  const uint32_t inbound_size = 1024;
+  const uint32_t outbound_size = 1024;
   app_message_open(inbound_size, outbound_size);
 
   default_hours = persist_exists(MESSAGE_KEY_hours) ? persist_read_int(MESSAGE_KEY_hours) : 0;
